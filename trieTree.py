@@ -15,19 +15,39 @@ class Node:
         return self.value == other.value
 
     def toDict(self):
-        # Convert children nodes to their dict representation
         children_dicts = [child.toDict() for child in self.childs]
-        # Handle parent safely: store only the value, or None if no parent
         parent_value = self.parent.value if self.parent else None
         return {
             "value": self.value,
-            "children": children_dicts,
-            "parent": parent_value,  # None if no parent
-            "isAWord": self.isAWord
-        }
+            "parent": parent_value, 
+            "isAWord": self.isAWord,
+            "children": children_dicts}
+    @staticmethod
+    def jsonRecovery():
+        # Open the file and parse the JSON data
+        with open("TrieTree.json", 'r') as f:
+            data = json.load(f)  # Parse the JSON content
+        
+        # Build the root node recursively
+        def build_node(node_dict):
+            # Extract values from the dictionary
+            value = node_dict["value"]
+            parent_value = node_dict["parent"]
+            isAWord = bool(node_dict["isAWord"])  # Convert 1/0 to True/False
+            
+            # Recursively build children
+            children = [build_node(child) for child in node_dict["children"]]
+            
+            # Create the node (adjust parent linking as needed)
+            node = Node(value, parent=parent_value, children=children, isAWord=isAWord)
+            return node
+        
+        root_node = build_node(data)
+        return TrieTree(root_node)
+    
 class TrieTree:
-    def __init__(self):
-        self.root = Node(None)
+    def __init__(self,root=Node(None)):
+        self.root = root
     def toDict(self):
         dictFile = self.root.toDict()
         with open("TrieTree.json",'w') as file:
@@ -72,17 +92,15 @@ class TrieTree:
             root = root.parent
             root.childs = []
 
-lstWord1 = ['c','a','l','l']
-lstWord2 = ['c','a','r']
-lstWord3 = ['t','e','a']
-tree = TrieTree()
-tree.addWord(lstWord1,tree.root)
-tree.addWord(lstWord2,tree.root)
-tree.addWord(lstWord3,tree.root)
-tree.toDict()
-
-        
-
-        
-
-        
+with open("TrieTree.json") as file:
+    file1 = json.load(file)
+def NodeMaker(jsonfile):
+    if len(jsonfile["children"])==0:
+        return Node(jsonfile["value"],jsonfile["parent"],[],jsonfile["isAWord"])
+    children = []
+    for child in jsonfile["children"]:
+        children.append(NodeMaker(child))
+    return Node(jsonfile["value"],jsonfile["parent"],children,jsonfile["isAWord"])
+nodeMain = NodeMaker(file1)
+tree = TrieTree(nodeMain)
+print(tree.root.childs[0].childs[0].value)
