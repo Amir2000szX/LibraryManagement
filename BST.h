@@ -8,6 +8,7 @@
 #include "Book.h"
 #include "Node.h"
 
+extern Book* makeBook(unsigned long long int ISBN,char Title[],char Author[],unsigned short int Year);
 extern void insert(Book* book, Node* rootNode);
 extern Node* search(Node* root, unsigned long long int key);
 extern Node* maximum(Node* root);

@@ -3,6 +3,8 @@
 #include "Node.h"
 #include "BST.h"
 #include "cJSON.h"
+#include "CToJson.h"
+
 cJSON* BSTtoJson(Node* root){
     if (root->leftChild == NULL && root->rightChild == NULL){
         cJSON *jsonfile = cJSON_CreateObject();

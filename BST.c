@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "BST.h"
 #include "Node.h"
 #include "BST.h"
 #include "cJSON.h"
