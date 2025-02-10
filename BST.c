@@ -2,20 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-
-typedef struct Book{
-    unsigned long long int ISBN;
-    char Title[100];
-    char Author[100];
-    unsigned short int Year;
-}Book;
-
-typedef struct Node{
-    Book* book;
-    struct Node* parent;
-    struct Node* leftChild;
-    struct Node* rightChild;
-}Node;
+#include "Node.h"
+#include "BST.h"
+#include "cJSON.h"
+#include "CToJson.h"
 
 Book* makeBook(unsigned long long int ISBN,char Title[],char Author[],unsigned short int Year){
     Book* book = (Book*)malloc(sizeof(Book));
@@ -125,7 +115,7 @@ Node* del(unsigned long long int key,Node* root){
             findedNodeParent->rightChild = NULL;
         }
         else{
-            findedNode->leftChild = NULL;
+            findedNodeParent->leftChild = NULL;
         }
         free(findedNode->book);
         free(findedNode);
@@ -147,4 +137,3 @@ Node* del(unsigned long long int key,Node* root){
     free(findedNode);
     return root;
 }
-

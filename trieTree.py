@@ -19,32 +19,18 @@ class Node:
         parent_value = self.parent.value if self.parent else None
         return {
             "value": self.value,
-            "parent": parent_value, 
+            "parent": parent_value,
             "isAWord": self.isAWord,
             "children": children_dicts}
     @staticmethod
-    def jsonRecovery():
-        # Open the file and parse the JSON data
-        with open("TrieTree.json", 'r') as f:
-            data = json.load(f)  # Parse the JSON content
-        
-        # Build the root node recursively
-        def build_node(node_dict):
-            # Extract values from the dictionary
-            value = node_dict["value"]
-            parent_value = node_dict["parent"]
-            isAWord = bool(node_dict["isAWord"])  # Convert 1/0 to True/False
-            
-            # Recursively build children
-            children = [build_node(child) for child in node_dict["children"]]
-            
-            # Create the node (adjust parent linking as needed)
-            node = Node(value, parent=parent_value, children=children, isAWord=isAWord)
-            return node
-        
-        root_node = build_node(data)
-        return TrieTree(root_node)
-    
+    def rootMaker(jsonfile):
+        if len(jsonfile["children"])==0:
+            return Node(jsonfile["value"],jsonfile["parent"],[],jsonfile["isAWord"])
+        children = []
+        for child in jsonfile["children"]:
+            children.append(Node.rootMaker(child))
+        return Node(jsonfile["value"],jsonfile["parent"],children,jsonfile["isAWord"])
+   
 class TrieTree:
     def __init__(self,root=Node(None)):
         self.root = root
@@ -91,16 +77,13 @@ class TrieTree:
         while root.isAWord != 1 and len(root.childs)==0 :
             root = root.parent
             root.childs = []
-
-with open("TrieTree.json") as file:
-    file1 = json.load(file)
-def NodeMaker(jsonfile):
-    if len(jsonfile["children"])==0:
-        return Node(jsonfile["value"],jsonfile["parent"],[],jsonfile["isAWord"])
-    children = []
-    for child in jsonfile["children"]:
-        children.append(NodeMaker(child))
-    return Node(jsonfile["value"],jsonfile["parent"],children,jsonfile["isAWord"])
-nodeMain = NodeMaker(file1)
-tree = TrieTree(nodeMain)
-print(tree.root.childs[0].childs[0].value)
+    @staticmethod
+    def makeTree():
+        try :
+            with open("TrieTree.json",'r') as TreeFile:
+                Tree = TrieTree(Node.rootMaker(TreeFile))
+            return Tree
+        except :
+            with open("TrieTree.json",'w') as file:
+                Tree = TrieTree()
+            return Tree

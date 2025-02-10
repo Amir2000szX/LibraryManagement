@@ -1,0 +1,41 @@
+{
+	"ISBN":	9783161484100,
+	"rightChild":	null,
+	"leftChild":	{
+		"ISBN":	9780451524935,
+		"rightChild":	{
+			"ISBN":	9780743273565,
+			"rightChild":	null,
+			"leftChild":	{
+				"ISBN":	9780679734529,
+				"rightChild":	null,
+				"leftChild":	{
+					"ISBN":	9780553382563,
+					"leftChild":	null,
+					"rightChild":	null
+				}
+			}
+		},
+		"leftChild":	{
+			"ISBN":	9780141182803,
+			"rightChild":	{
+				"ISBN":	9780307277671,
+				"leftChild":	null,
+				"rightChild":	{
+					"ISBN":	9780374533557,
+					"rightChild":	null,
+					"leftChild":	{
+						"ISBN":	9780316769488,
+						"leftChild":	null,
+						"rightChild":	null
+					}
+				}
+			},
+			"leftChild":	{
+				"ISBN":	9780061120084,
+				"leftChild":	null,
+				"rightChild":	null
+			}
+		}
+	}
+}
